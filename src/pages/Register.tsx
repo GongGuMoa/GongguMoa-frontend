@@ -213,7 +213,7 @@ const Register = () => {
               onButtonClick={emailChecked ? sendAuthCode : checkEmailDuplicate}
               isError={!!errors.email}
               iconColor={isEmailVerified ? colors.primary : undefined}
-              disabled={!isValidEmail(email) || isSendingAuth}
+              buttonDisabled={!isValidEmail(email) || isSendingAuth}
             />
             {showAuthInput && !isEmailVerified && (
               <FormInput
