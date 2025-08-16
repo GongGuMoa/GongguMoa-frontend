@@ -89,8 +89,8 @@ const Location = () => {
         // 저장된 위치 불러오기
         (async () => {
           try {
-            const { data } = await api.get("/api/users/location");
-            if (data?.location) setSavedLocation(data.location);
+            const { data } = await api.get("/api/users/locations");
+            if (data?.data?.location) setSavedLocation(data.data.location);
           } catch (e) {
             // eslint-disable-next-line no-console
             console.error("저장된 위치 불러오기 실패:", e);
