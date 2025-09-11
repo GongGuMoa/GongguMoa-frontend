@@ -45,7 +45,6 @@ const Location = () => {
   const observerRef = useRef<IntersectionObserver | null>(null);
   const placesRef = useRef<any>(null); // kakao.maps.services.Places 인스턴스
 
-  // Kakao SDK 로더 (중복 제거 + 캐시버스터)
   useEffect(() => {
     const removeExisting = () => {
       const existed = document.querySelector<HTMLScriptElement>(
@@ -57,7 +56,7 @@ const Location = () => {
     const initKakao = () => {
       window.kakao.maps.load(() => {
         if (!mapRef.current) return;
-        const center = new window.kakao.maps.LatLng(37.5407626, 127.0793423);
+        const center = new window.kakao.maps.LatLng(37.5407626, 127.0793423); // 건국대학교
         const map = new window.kakao.maps.Map(mapRef.current, {
           center,
           level: 3,
@@ -78,28 +77,31 @@ const Location = () => {
 
         // 마커 드래그로도 변경 가능하게
         markerRef.current.setDraggable(true);
-        window.kakao.maps.event.addListener(markerRef.current, "dragend", () => {
-          const pos = markerRef.current.getPosition();
-          applyPosition(pos.getLat(), pos.getLng());
-        });
-        
+        window.kakao.maps.event.addListener(
+          markerRef.current,
+          "dragend",
+          () => {
+            const pos = markerRef.current.getPosition();
+            applyPosition(pos.getLat(), pos.getLng());
+          }
+        );
+
         placesRef.current = new window.kakao.maps.services.Places();
         setReady(true);
-        
+
         // 저장된 위치 불러오기
         (async () => {
           try {
             const { data } = await api.get("/api/users/locations");
             if (data?.data?.location) setSavedLocation(data.data.location);
           } catch (e) {
-            // eslint-disable-next-line no-console
             console.error("저장된 위치 불러오기 실패:", e);
           }
         })();
       });
     };
 
-    // 이미 로드된 경우
+    // 이미 로드된 경우 바로 kakao 로드 > 중복 방지
     if (window.kakao && window.kakao.maps) {
       initKakao();
       return;
@@ -108,7 +110,9 @@ const Location = () => {
     // 새로 로드
     removeExisting();
     const script = document.createElement("script");
-    script.src = `https://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${import.meta.env.VITE_KAKAO_JS_KEY}&libraries=services&v=${Date.now()}`;
+    script.src = `https://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${
+      import.meta.env.VITE_KAKAO_JS_KEY
+    }&libraries=services&v=${Date.now()}`;
     script.async = true;
     script.defer = true;
     script.onload = initKakao;
@@ -132,23 +136,18 @@ const Location = () => {
     setCurrLng(lng);
 
     const geocoder = new kakao.maps.services.Geocoder();
-    geocoder.coord2Address(
-      lng,
-      lat,
-      (result: any[], status: string) => {
-        if (status === kakao.maps.services.Status.OK && result[0]) {
-          const addr =
-            result[0].road_address?.address_name ??
-            result[0].address?.address_name ??
-            "";
-          setCurrAddr(addr);
-          setAddress(addr); 
-        } else {
-          setCurrAddr("");
-          setAddress("");
-        }
+    geocoder.coord2Address(lng, lat, (result: any[], status: string) => {
+      if (status === kakao.maps.services.Status.OK && result[0]) {
+        const addr =
+          result[0].road_address?.address_name ??
+          result[0].address?.address_name ??
+          "";
+        setCurrAddr(addr);
+      } else {
+        setCurrAddr("");
+        setAddress("");
       }
-    );
+    });
   };
 
   // 검색 시작
@@ -191,7 +190,7 @@ const Location = () => {
           applyPosition(mapped[0].lat, mapped[0].lng);
         }
 
-        setResults(prev => [...prev, ...mapped]);
+        setResults((prev) => [...prev, ...mapped]);
 
         // 다음 페이지 유무 계산
         const current = pagination?.current || p;
@@ -205,7 +204,7 @@ const Location = () => {
     );
   };
 
-  // 무한스크롤 
+  // 무한스크롤
   useEffect(() => {
     if (!sentinelRef.current) return;
 
@@ -266,7 +265,9 @@ const Location = () => {
   // 선택된 좌표/주소 저장 -> 백엔드 POST
   const saveMyLocation = async () => {
     if (currLat == null || currLng == null || !currAddr) {
-      alert("저장할 위치가 없습니다. 먼저 주소 검색 또는 현재 위치 찾기를 해주세요.");
+      alert(
+        "저장할 위치가 없습니다. 먼저 주소 검색 또는 현재 위치 찾기를 해주세요."
+      );
       return;
     }
     try {
@@ -299,7 +300,9 @@ const Location = () => {
               onButtonClick={searchAddress}
               isError={false}
               iconColor={address ? colors.primary : undefined}
-              onKeyDown={(e: any) => { if (e.key === "Enter") searchAddress(); }}
+              onKeyDown={(e: any) => {
+                if (e.key === "Enter") searchAddress();
+              }}
             />
           </InputGroup>
 
@@ -326,7 +329,8 @@ const Location = () => {
                     width: "100%",
                     textAlign: "left",
                     padding: "10px 12px",
-                    borderBottom: i === results.length - 1 ? "none" : "1px solid #eee",
+                    borderBottom:
+                      i === results.length - 1 ? "none" : "1px solid #eee",
                     cursor: "pointer",
                     background: "white",
                   }}
@@ -339,12 +343,26 @@ const Location = () => {
               ))}
               <div ref={sentinelRef} style={{ height: 1 }} />
               {isLoading && (
-                <div style={{ padding: 10, textAlign: "center", fontSize: 12, color: "#666" }}>
+                <div
+                  style={{
+                    padding: 10,
+                    textAlign: "center",
+                    fontSize: 12,
+                    color: "#666",
+                  }}
+                >
                   불러오는 중…
                 </div>
               )}
               {!hasNext && !isLoading && (
-                <div style={{ padding: 10, textAlign: "center", fontSize: 12, color: "#999" }}>
+                <div
+                  style={{
+                    padding: 10,
+                    textAlign: "center",
+                    fontSize: 12,
+                    color: "#999",
+                  }}
+                >
                   더 이상 결과가 없습니다
                 </div>
               )}
