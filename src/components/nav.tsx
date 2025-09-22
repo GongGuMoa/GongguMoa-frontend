@@ -3,6 +3,11 @@ import logo from "../assets/logo.png";
 import { NavBar, NavLogo } from "../styles/common";
 import { BackButton, MypageButton } from "../styles/button";
 import { BackArrowIcon, ProfileIcon } from "./icons";
+import styled from "styled-components";
+
+const CustomNavLogo = styled(NavLogo)`
+  margin: 0 auto;
+`;
 
 export const BackNav = () => {
   const navigate = useNavigate();
@@ -36,6 +41,14 @@ export const LogoMyNav = () => {
       <MypageButton>
         <ProfileIcon />
       </MypageButton>
+    </NavBar>
+  );
+};
+
+export const LogoNav = () => {
+  return (
+    <NavBar>
+      <CustomNavLogo src={logo} alt="로고" />
     </NavBar>
   );
 };

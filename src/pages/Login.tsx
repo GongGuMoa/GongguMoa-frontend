@@ -12,6 +12,8 @@ import {
 } from "../styles/common";
 import { Button, TextButtonWrapper, TextButton } from "../styles/button";
 import api from "../api/axios";
+import { useSetRecoilState } from "recoil";
+import { userAtom } from "../atoms/user";
 
 const Logo = styled.img`
   width: 160px;
@@ -22,6 +24,7 @@ const Logo = styled.img`
 
 const Login = () => {
   const navigate = useNavigate();
+  const setUser = useSetRecoilState(userAtom);
 
   const [emailOrPhone, setEmailOrPhone] = useState("");
   const [password, setPassword] = useState("");
@@ -39,11 +42,19 @@ const Login = () => {
         password,
       });
 
-      if (data.code===20000) {
+      if (data.code === 20000) {
         localStorage.setItem("accessToken", data.data.accessToken);
         localStorage.setItem("refreshToken", data.data.refreshToken);
+
+        setUser({
+          name: data.data.name,
+          email: data.data.email,
+          profileImage: data.data.profileImage || "", // 프로필 없는 경우 대비
+          isLoggedIn: true,
+        });
+
         alert("로그인 성공!");
-        navigate("/location"); // 로그인 후 메인 페이지 이동
+        navigate("/location");
       } else {
         setError(data.message || "로그인 실패");
       }
