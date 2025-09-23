@@ -61,3 +61,9 @@ export const MenuText = styled.div`
   flex-grow: 1;
   font-size: 15px;
 `;
+
+export const ArrowIcon = styled.div`
+  width: 24px;
+  height: 24px;
+  color: black;
+`;

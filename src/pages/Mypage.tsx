@@ -6,6 +6,7 @@ import { Container, Box } from "../styles/common";
 import {
   ProfileBox,
   ProfileImg,
+  ArrowIcon,
   UserName,
   Arrow,
   SectionTitle,
@@ -50,12 +51,9 @@ const Mypage = () => {
       <Container>
         <Box>
           <ProfileBox onClick={() => navigate("/mypage/profile")}>
-            <ProfileImg
-              src={user.profileImage || "/default-profile.png"}
-              alt="프로필"
-            />
+            <ProfileImg src={user.profileImage || "/default-profile.png"} />
             <UserName>{user.name || "이름없음"}</UserName>
-            <Arrow>{">"}</Arrow>
+            <ArrowIcon />
           </ProfileBox>
 
           <SectionTitle>나의 활동</SectionTitle>
@@ -63,7 +61,7 @@ const Mypage = () => {
             <MenuItem onClick={() => navigate("/mypage/posts")}>
               <MenuIcon />
               <MenuText>작성글 보기</MenuText>
-              <Arrow>{">"}</Arrow>
+              <ArrowIcon />
             </MenuItem>
           </MenuList>
 

@@ -1,4 +1,3 @@
-// components/formInput.tsx
 import React from "react";
 import { Input, InputIcon, InputWrapper } from "../styles/common";
 import { SmallButton } from "../styles/button";
@@ -15,8 +14,8 @@ interface FormInputProps {
   errorBorderRadius?: string;
   isValid?: boolean;
   iconColor?: string;
-  inputDisabled?: boolean; 
-  buttonDisabled?: boolean; 
+  inputDisabled?: boolean;
+  buttonDisabled?: boolean;
   onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
 }
 
@@ -51,7 +50,7 @@ const FormInput = ({
         value={value}
         onChange={onChange}
         onKeyDown={onKeyDown}
-        disabled={inputDisabled} 
+        disabled={inputDisabled}
       />
       {buttonText && (
         <SmallButton

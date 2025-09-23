@@ -64,7 +64,7 @@ const Register = () => {
     agreed &&
     phoneChecked &&
     nicknameChecked;
-  
+
   const checkEmailDuplicate = async () => {
     try {
       const { data } = await api.get(`/api/users/check-email`, {
@@ -99,7 +99,7 @@ const Register = () => {
       } else {
         setErrors((prev) => ({ ...prev, email: data.message }));
       }
-    } catch (err : any) {
+    } catch (err: any) {
       console.error("sendAuthCode 에러:", err);
       setErrors((prev) => ({ ...prev, email: err.response?.data?.message }));
     } finally {
@@ -120,7 +120,7 @@ const Register = () => {
         alert(data.message || "인증 실패");
         setIsEmailVerified(false);
       }
-    } catch (err : any) {
+    } catch (err: any) {
       console.error("verifyAuthCode 에러:", err);
       alert(err.response?.data?.message);
       setIsEmailVerified(false);
@@ -140,7 +140,7 @@ const Register = () => {
         setErrors((prev) => ({ ...prev, phone: data.message }));
         setPhoneChecked(false);
       }
-    } catch (err :any) {
+    } catch (err: any) {
       console.error("checkPhone 에러:", err);
       setErrors((prev) => ({ ...prev, phone: err.response?.data?.message }));
       setPhoneChecked(false);
@@ -160,9 +160,9 @@ const Register = () => {
         setErrors((prev) => ({ ...prev, nickname: data.message }));
         setNicknameChecked(false);
       }
-    } catch (err :any) {
+    } catch (err: any) {
       console.error("checkNickname 에러:", err);
-      setErrors((prev) => ({ ...prev, nickname: err.response?.data?.message}));
+      setErrors((prev) => ({ ...prev, nickname: err.response?.data?.message }));
       setNicknameChecked(false);
     }
   };
@@ -186,7 +186,7 @@ const Register = () => {
       } else {
         alert(data.message || "회원가입 실패");
       }
-    } catch (err : any) {
+    } catch (err: any) {
       console.error("handleRegister 에러:", err);
       alert(err.response?.data?.message);
     }
@@ -205,9 +205,9 @@ const Register = () => {
               value={email}
               onChange={(e) => {
                 setEmail(e.target.value);
-                setEmailChecked(false); 
-                setShowAuthInput(false);     
-                setIsEmailVerified(false);  
+                setEmailChecked(false);
+                setShowAuthInput(false);
+                setIsEmailVerified(false);
               }}
               buttonText={emailChecked ? "인증번호" : "중복확인"}
               onButtonClick={emailChecked ? sendAuthCode : checkEmailDuplicate}
@@ -268,7 +268,7 @@ const Register = () => {
               value={phone}
               onChange={(e) => {
                 setPhone(e.target.value);
-                setPhoneChecked(false); 
+                setPhoneChecked(false);
               }}
               buttonText="중복확인"
               onButtonClick={checkPhone}
