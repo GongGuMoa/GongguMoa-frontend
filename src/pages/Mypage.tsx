@@ -6,15 +6,20 @@ import { Container, Box } from "../styles/common";
 import {
   ProfileBox,
   ProfileImg,
-  ArrowIcon,
   UserName,
-  Arrow,
   SectionTitle,
   MenuList,
+  MenuIconFrame,
   MenuItem,
-  MenuIcon,
   MenuText,
 } from "../components/menuItemRow";
+import {
+  ArrowIcon,
+  ListIcon,
+  LogoutIcon,
+  ExitIcon,
+  ProfileIcon,
+} from "../components/icons";
 import api from "../api/axios";
 
 const Mypage = () => {
@@ -51,7 +56,7 @@ const Mypage = () => {
       <Container>
         <Box>
           <ProfileBox onClick={() => navigate("/mypage/profile")}>
-            <ProfileImg src={user.profileImage || "/default-profile.png"} />
+            <ProfileImg src={user.profileImage || "ProfileIcon"} />
             <UserName>{user.name || "이름없음"}</UserName>
             <ArrowIcon />
           </ProfileBox>
@@ -59,7 +64,9 @@ const Mypage = () => {
           <SectionTitle>나의 활동</SectionTitle>
           <MenuList>
             <MenuItem onClick={() => navigate("/mypage/posts")}>
-              <MenuIcon />
+              <MenuIconFrame>
+                <ListIcon />
+              </MenuIconFrame>
               <MenuText>작성글 보기</MenuText>
               <ArrowIcon />
             </MenuItem>
@@ -68,11 +75,15 @@ const Mypage = () => {
           <SectionTitle>설정</SectionTitle>
           <MenuList>
             <MenuItem onClick={handleLogout}>
-              <MenuIcon />
+              <MenuIconFrame>
+                <LogoutIcon />
+              </MenuIconFrame>
               <MenuText>로그아웃</MenuText>
             </MenuItem>
             <MenuItem onClick={handleWithdraw}>
-              <MenuIcon />
+              <MenuIconFrame>
+                <ExitIcon />
+              </MenuIconFrame>
               <MenuText>탈퇴하기</MenuText>
             </MenuItem>
           </MenuList>

@@ -21,11 +21,6 @@ export const UserName = styled.span`
   flex-grow: 1;
 `;
 
-export const Arrow = styled.span`
-  font-size: 18px;
-  color: #aaa;
-`;
-
 export const SectionTitle = styled.div`
   padding: 16px 12px 8px;
   font-weight: bold;
@@ -43,16 +38,19 @@ export const MenuItem = styled.div`
   padding: 14px 16px;
   border-bottom: 1px solid #eee;
   cursor: pointer;
+  color: #888888;
 
   &:hover {
     background-color: #f9f9f9;
   }
 `;
 
-export const MenuIcon = styled.div`
-  width: 24px;
-  height: 24px;
-  background-color: #ddd;
+export const MenuIconFrame = styled.div`
+  width: 16px;
+  height: 16px;
+  padding: 3px 4px 5px 4px;
+  background-color: #c8c8c8;
+  color: white;
   border-radius: 6px;
   margin-right: 12px;
 `;
@@ -60,10 +58,4 @@ export const MenuIcon = styled.div`
 export const MenuText = styled.div`
   flex-grow: 1;
   font-size: 15px;
-`;
-
-export const ArrowIcon = styled.div`
-  width: 24px;
-  height: 24px;
-  color: black;
 `;
